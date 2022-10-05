@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "utils/serialize_endian.h"
+
 namespace utils {
 /*!
 
@@ -73,6 +75,9 @@ struct BVManipFns<uint64_t> {
 
 template<typename uint_type>
 class BitVector {
+
+protected:
+
 	uint_type bv;
 
 public:
