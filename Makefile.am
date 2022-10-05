@@ -8,6 +8,7 @@ lib_LIBRARIES = libutility.a
 
 pkginclude_HEADERS = \
 	include/utils/async_worker.h \
+	include/utils/bitvector.h \
 	include/utils/cleanup.h \
 	include/utils/debug_utils.h \
 	include/utils/mkdir.h
