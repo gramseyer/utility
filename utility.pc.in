@@ -6,6 +6,5 @@ includedir=@includedir@
 Name: utility
 Description: utility
 Version: @PACKAGE_VERSION@
-Requires.private:
 Libs: -L${libdir} -lutility
 Cflags: -I${includedir}/include

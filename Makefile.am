@@ -9,7 +9,8 @@ lib_LIBRARIES = libutility.a
 pkginclude_HEADERS = \
 	include/utils/async_worker.h \
 	include/utils/cleanup.h \
-	include/utils/debug_utils.h
+	include/utils/debug_utils.h \
+	include/utils/mkdir.h
 
 EXTRA_DIST = \
 	.gitignore \
@@ -21,7 +22,8 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = utility.pc
 
 UTILS_SRCS = \
-	utils/cleanup.cc
+	utils/cleanup.cc \
+	utils/mkdir.cc
 
 libutility_a_SOURCES = $(UTILS_SRCS)
 
@@ -33,8 +35,6 @@ $(SRCS:.cc=.o): CXXFLAGS += -I./include
 
 #AM_CPPFLAGS = $(xdrpp_CFLAGS) $(libsodium_CFLAGS) $(lmdb_CFLAGS)
 #LDADD = $(xdrpp_LIBS) $(libsodium_LIBS)  $(lmdb_LIBS)
-
-$(SRCS:.cc=.o) : $(XH_FILES)
 
 #$(EXTRA_SRCS:.cc=.o) : $(XH_FILES)
 #$(MAIN_CCS:.cc=.o) : $(XH_FILES)
@@ -49,14 +49,14 @@ $(SRCS:.cc=.o) : $(XH_FILES)
 #check_PROGRAMS = test
 #TESTS = test
 
-clean-local:
-	$(RM)
+#clean-local:
+#	$(RM)
 
 README: README.md
 
-.PHONY: doc
-doc:
-	doxygen Doxyfile
+#.PHONY: doc
+#doc:
+#	doxygen Doxyfile
 
 
 

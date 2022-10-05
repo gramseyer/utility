@@ -2,7 +2,6 @@ Name: utility
 Description: utility
 Version: @PACKAGE_VERSION@
 Libs: ${pcfiledir}/libutility.a
-Requires.private:
+
 Cflags: -I@abs_top_srcdir@/include
-Libs: -L${libdir} --lutility
 
