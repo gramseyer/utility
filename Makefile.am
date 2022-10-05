@@ -11,7 +11,11 @@ pkginclude_HEADERS = \
 	include/utils/bitvector.h \
 	include/utils/cleanup.h \
 	include/utils/debug_utils.h \
-	include/utils/mkdir.h
+	include/utils/mkdir.h \
+	include/utils/non_movable.h \
+	include/utils/serialize_endian.h \
+	include/utils/threadlocal_cache.h \
+	include/utils/time.h
 
 EXTRA_DIST = \
 	.gitignore \
