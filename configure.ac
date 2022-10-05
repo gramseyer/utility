@@ -16,10 +16,10 @@ AS_IF([test -z "${WFLAGS+set}"], AX_APPEND_COMPILE_FLAGS([-Wall], WFLAGS))
 
 AC_PROG_RANLIB
 
-CXXFLAGS="$CXXFLAGS $WFLAGS"
+dnl CXXFLAGS="$CXXFLAGS $WFLAGS"
 
-PKG_PROG_PKG_CONFIG
+dnl PKG_PROG_PKG_CONFIG
 
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile utility.pc utility-uninstalled.pc])
+AC_CONFIG_FILES([Makefile]) dnl utility.pc utility-uninstalled.pc])
 AC_OUTPUT
