@@ -2,6 +2,6 @@ Name: utility
 Description: utility
 Version: @PACKAGE_VERSION@
 Libs: ${pcfiledir}/libutility.a
-
 Cflags: -I@abs_top_srcdir@/include
+Requires: lmdb
 

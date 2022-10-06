@@ -8,3 +8,4 @@ Description: utility
 Version: @PACKAGE_VERSION@
 Libs: -L${libdir} -lutility
 Cflags: -I${includedir}/include
+Requires: lmdb

@@ -18,6 +18,10 @@ AC_PROG_RANLIB
 
 CXXFLAGS="$CXXFLAGS $WFLAGS"
 
+PKG_PROG_PKG_CONFIG
+
+PKG_CHECK_MODULES([lmdb], [lmdb])
+
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile utility.pc utility-uninstalled.pc])
 AC_OUTPUT
