@@ -57,6 +57,11 @@ public:
    // , persisted_round_number(0)
     {};
 
+
+  // force the creation/opening of the metadata db
+  void create_metadata_db();
+  void open_metadata_db();
+
   //! Get the most recent round number 
   //! reflected on disk.
   uint64_t get_persisted_round_number() const;

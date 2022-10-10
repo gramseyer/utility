@@ -11,10 +11,8 @@ MDB_dbi BaseLMDBInstance::open_db(const char* name) {
   auto rtx = env.rbegin();
 
   MDB_dbi dbi = rtx.open(name);
-  if (!metadata_dbi_open) {
-    metadata_dbi = rtx.open("metadata");
-    metadata_dbi_open = true;
-  }
+
+  open_metadata_db();
 
   auto persisted_round_number_opt = rtx.get(metadata_dbi, dbval("persisted block"));
   if (!persisted_round_number_opt) {
@@ -32,6 +30,12 @@ BaseLMDBInstance::get_persisted_round_number() const {
     return 0;
   }
   auto rtx = env.rbegin();
+
+  if (!metadata_dbi_open)
+  {
+    throw std::runtime_error("cannot get persisted_round_number if metadata_dbi not open");
+  }
+
   auto persisted_round_number = rtx.get(metadata_dbi, dbval("persisted block"));
   if (!persisted_round_number) {
     return 0;
@@ -41,18 +45,36 @@ BaseLMDBInstance::get_persisted_round_number() const {
   return out;
 }
 
-MDB_dbi BaseLMDBInstance::create_db(const char* name) {
-  if (!env_open) {
-    throw std::runtime_error("env not open");
-  }
+void 
+BaseLMDBInstance::create_metadata_db()
+{
   auto wtx = env.wbegin();
-  MDB_dbi dbi = wtx.open(name, MDB_CREATE);
-
   if (!metadata_dbi_open) {
     metadata_dbi = wtx.open("metadata", MDB_CREATE);
     metadata_dbi_open = true;
   }
+  wtx.commit();
+}
 
+void BaseLMDBInstance::open_metadata_db()
+{
+  auto rtx = env.rbegin();
+  if (!metadata_dbi_open) {
+    metadata_dbi = rtx.open("metadata");
+    metadata_dbi_open = true;
+  }
+}
+
+MDB_dbi BaseLMDBInstance::create_db(const char* name) {
+  if (!env_open) {
+    throw std::runtime_error("env not open");
+  }
+  create_metadata_db();
+  
+  auto wtx = env.wbegin();
+  MDB_dbi dbi = wtx.open(name, MDB_CREATE);
+
+  // 20221009 : probably redundant, given creating metadata db with MDB_CREATE TODO check this
   auto preexist_check = wtx.get(metadata_dbi, dbval("persisted block"));
 
   if (preexist_check) {
