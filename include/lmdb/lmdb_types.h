@@ -16,9 +16,7 @@
 
 #include <lmdb.h>
 
-#include <xdrpp/marshal.h>
-
-#include <utils/cleanup.h>  
+#include "utils/cleanup.h"
 
 namespace lmdb {
 
