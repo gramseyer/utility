@@ -3,18 +3,20 @@
 namespace lmdb 
 {
 
+constexpr static char* PERSISTED_BLOCK = "persisted block";
+
 MDB_dbi BaseLMDBInstance::open_db(const char* name) {
   if (!env_open) {
     throw std::runtime_error("env not open");
   }
 
+  open_metadata_db();
+
   auto rtx = env.rbegin();
 
   MDB_dbi dbi = rtx.open(name);
 
-  open_metadata_db();
-
-  auto persisted_round_number_opt = rtx.get(metadata_dbi, dbval("persisted block"));
+  auto persisted_round_number_opt = rtx.get(metadata_dbi, dbval(PERSISTED_BLOCK));
   if (!persisted_round_number_opt) {
     throw std::runtime_error("missing metadata contents");
   }
@@ -36,7 +38,7 @@ BaseLMDBInstance::get_persisted_round_number() const {
     throw std::runtime_error("cannot get persisted_round_number if metadata_dbi not open");
   }
 
-  auto persisted_round_number = rtx.get(metadata_dbi, dbval("persisted block"));
+  auto persisted_round_number = rtx.get(metadata_dbi, dbval(PERSISTED_BLOCK));
   if (!persisted_round_number) {
     return 0;
   }
@@ -58,11 +60,12 @@ BaseLMDBInstance::create_metadata_db()
 
 void BaseLMDBInstance::open_metadata_db()
 {
-  auto rtx = env.rbegin();
+  auto wtx = env.wbegin();
   if (!metadata_dbi_open) {
-    metadata_dbi = rtx.open("metadata");
+    metadata_dbi = wtx.open("metadata");
     metadata_dbi_open = true;
   }
+  wtx.commit();
 }
 
 MDB_dbi BaseLMDBInstance::create_db(const char* name) {
@@ -75,7 +78,7 @@ MDB_dbi BaseLMDBInstance::create_db(const char* name) {
   MDB_dbi dbi = wtx.open(name, MDB_CREATE);
 
   // 20221009 : probably redundant, given creating metadata db with MDB_CREATE TODO check this
-  auto preexist_check = wtx.get(metadata_dbi, dbval("persisted block"));
+  auto preexist_check = wtx.get(metadata_dbi, dbval(PERSISTED_BLOCK));
 
   if (preexist_check) {
     if (preexist_check -> uint64() != 0) {
@@ -92,7 +95,7 @@ MDB_dbi BaseLMDBInstance::create_db(const char* name) {
 
 void 
 BaseLMDBInstance::write_persisted_round_number(dbenv::wtxn& wtx, uint64_t round_number) {
-  dbval persisted_key = dbval("persisted block");
+  dbval persisted_key = dbval(PERSISTED_BLOCK);
   dbval round_value = dbval(&round_number, sizeof(uint64_t));
   wtx.put(metadata_dbi, &persisted_key, &round_value);
 }
@@ -116,7 +119,7 @@ void BaseLMDBInstance::commit_wtxn(dbenv::wtxn& txn, uint64_t persisted_round, b
   txn.commit();
 
   if (do_sync) { 
-    sync();
+	  sync();
   }
 }
 
