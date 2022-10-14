@@ -3,7 +3,7 @@
 namespace lmdb 
 {
 
-constexpr static char* PERSISTED_BLOCK = "persisted block";
+constexpr std::string_view PERSISTED_BLOCK = "persisted block";
 
 MDB_dbi BaseLMDBInstance::open_db(const char* name) {
   if (!env_open) {
