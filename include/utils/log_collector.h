@@ -82,7 +82,7 @@ class AsyncLogWriter : public AsyncWorker
 
 		for (auto const& log : logs)
 		{
-			std::fwrite(log.c_str(), sizeof(unsigned char), logs.size(), f);
+			std::fwrite(log.c_str(), sizeof(unsigned char), log.size(), f);
 		}
 
 		std::fflush(f);
