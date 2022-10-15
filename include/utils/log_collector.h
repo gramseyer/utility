@@ -132,6 +132,11 @@ public:
 		writer.submit_logs_to_write(std::move(logs.get_objects()), filename);
 		logs.clear();
 	}
+
+	void clear()
+	{
+		logs.clear();
+	}
 };
 
 }
