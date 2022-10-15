@@ -78,12 +78,16 @@ class AsyncLogWriter : public AsyncWorker
 			throw std::runtime_error(std::string("failed to open log file: ") + filename);
 		}
 
-		auto logs = get_unified_logs();
-
-		for (auto const& log : logs)
+		for (auto const& obj : objects)
 		{
-			std::fwrite(log.c_str(), sizeof(unsigned char), log.size(), f);
-		}
+			if (obj)
+			{
+				for (auto const& log : *obj)
+				{
+					std::fwrite(log.c_str(), sizeof(unsigned char), log.size(), f);
+				}
+			}
+		}	
 
 		std::fflush(f);
 		std::fclose(f);
