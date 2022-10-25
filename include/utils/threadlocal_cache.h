@@ -88,6 +88,11 @@ class ThreadlocalCache : private NonMovableOrCopyable
         return objects;
     }
 
+    std::array<std::optional<ValueType>, CACHE_SIZE> const& get_objects() const
+    {
+        return objects;
+    }
+
     void clear()
     {
         for (uint32_t i = 0; i < CACHE_SIZE; i++) {
