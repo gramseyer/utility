@@ -13,8 +13,6 @@
 
 namespace utils {
 
-//! Reads contents of \a buf into \a value, starting from \a buf[offset],
-//! interpreted big endian
 template<typename array, std::unsigned_integral T>
 static void
 write_unsigned_big_endian(array& buf, const T& value, const size_t offset = 0)
