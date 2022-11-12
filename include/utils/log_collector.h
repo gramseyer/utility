@@ -3,6 +3,7 @@
 #include "utils/async_worker.h"
 #include "utils/threadlocal_cache.h"
 
+#include <algorithm>
 #include <array>
 #include <string>
 #include <vector>
