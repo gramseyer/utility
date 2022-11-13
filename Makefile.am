@@ -38,6 +38,7 @@ UTILS_SRCS = \
 	utils/mkdir.cc
 
 libutility_a_SOURCES = $(LMDB_SRCS) $(UTILS_SRCS)
+libutility_a_LIBOBJS = $(LIBOBJS) $(ALLOCA)
 
 SRCS = \
 	$(LMDB_SRCS) \
