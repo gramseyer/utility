@@ -6,8 +6,8 @@ AC_CONFIG_MACRO_DIR([m4])
 OPT_FLAGS="-march=native -O3 -flto"
 DEBUG_FLAGS="-ggdb -O0"
 
-CXXFLAGS="-std=gnu++2a $OPT_FLAGS $CXXFLAGS"
-CXX="g++"
+dnl CXXFLAGS="-std=gnu++2a $OPT_FLAGS $CXXFLAGS"
+dnl CXX="g++"
 
 AC_PROG_CXX
 AC_LANG(C++)
