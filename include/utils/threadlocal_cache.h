@@ -35,6 +35,10 @@ class ThreadlocalIdentifier : private NonMovableOrCopyable
 
   public:
     static uint32_t get() { return tid; }
+
+    static std::string get_string() {
+        return std::to_string(tid);
+    }
 };
 
 /*! Threadlocal object cache.
