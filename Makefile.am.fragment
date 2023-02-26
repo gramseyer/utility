@@ -1,0 +1,10 @@
+
+
+utility_CFLAGS = -I %reldir%/include
+
+utility_CCS = \
+	%reldir%/lmdb/lmdb_types.cc \
+	%reldir%/lmdb/lmdb_wrapper.cc \
+	%reldir%/utils/cleanup.cc \
+	%reldir%/utils/mkdir.cc
+
