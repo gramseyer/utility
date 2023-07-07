@@ -4,6 +4,7 @@
 #include <concepts>
 #include <cstddef>
 #include <cstdint>
+#include <cstring>
 #include <stdexcept>
 #include <vector>
 
@@ -131,15 +132,24 @@ template<std::unsigned_integral T>
 static void
 write_unsigned_little_endian(uint8_t* buf, const T& value)
 {
+    static_assert(std::endian::native == std::endian::little,
+                  "endian mismatch");
+
+    std::memcpy(buf, reinterpret_cast<const uint8_t*>(&value), sizeof(value));
+}
+
+template<std::unsigned_integral T>
+static void
+append_unsigned_little_endian(std::vector<uint8_t>& data, const T& value)
+{
     constexpr size_t sz = sizeof(T);
 
-    static_assert(
-        (sz - 1) * 8 <= UINT8_MAX,
-        "if this happens we need to account for overflows on mask shift");
-    for (uint8_t loc = 0; loc < sz; loc++) {
-        uint8_t offset = (loc * 8);
-        buf[loc] = (unsigned char)((value >> offset) & 0xFF);
-    }
+    static_assert(std::endian::native == std::endian::little,
+                  "endian mismatch");
+
+    const uint8_t* ptr = reinterpret_cast<const uint8_t*>(&value);
+
+    data.insert(data.end(), ptr, ptr + sz);
 }
 
 //! Reads contents of \a buf, in little endian, and returns result.
@@ -147,13 +157,10 @@ template<std::unsigned_integral T>
 static T
 read_unsigned_little_endian(const unsigned char* buf)
 {
-    constexpr size_t sz = sizeof(T);
-    T output = 0;
-    for (uint8_t loc = sz; loc != 0; loc--) {
-        output <<= 8;
-        output += buf[loc - 1];
-    }
-    return output;
+    static_assert(std::endian::native == std::endian::little,
+              "endian mismatch");
+
+    return *reinterpret_cast<const T*>(buf);
 }
 
 template<std::unsigned_integral T>
