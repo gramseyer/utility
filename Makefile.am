@@ -38,7 +38,7 @@ LDADD = $(lmdb_LIBS) $(Catch2_LIBS)
 #$(EXTRA_SRCS:.cc=.o) : $(XH_FILES)
 #$(MAIN_CCS:.cc=.o) : $(XH_FILES)
 
-$(utility_TEST_CCS:.cc=.o) : CXXFLAGS += $(catch2_CFLAGS)
+$(utility_TEST_CCS:.cc=.o) : CXXFLAGS += $(Catch2_CFLAGS)
 
 test_SOURCES = $(utility_CCS) $(utility_TEST_CCS) test.cc
 test.o : CXXFLAGS += $(Catch2_CFLAGS)
