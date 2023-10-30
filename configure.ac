@@ -6,7 +6,7 @@ AC_CONFIG_MACRO_DIR([m4])
 OPT_FLAGS="-march=native -O3 -flto"
 DEBUG_FLAGS="-ggdb -O0"
 
-dnl CXXFLAGS="-std=gnu++2a $OPT_FLAGS $CXXFLAGS"
+CXXFLAGS="-std=gnu++2a $DEBUG_FLAGS $CXXFLAGS"
 dnl CXX="g++"
 
 AC_PROG_CXX
@@ -14,11 +14,17 @@ AC_LANG(C++)
 AX_APPEND_COMPILE_FLAGS([-pthread])
 AS_IF([test -z "${WFLAGS+set}"], AX_APPEND_COMPILE_FLAGS([-Wall], WFLAGS))
 
+
 AC_PROG_RANLIB
 
 CXXFLAGS="$CXXFLAGS $WFLAGS"
 
 PKG_PROG_PKG_CONFIG
+
+PKG_CHECK_MODULES([libsodium], [libsodium])
+PKG_CHECK_MODULES([tbb], [tbb]);
+PKG_CHECK_MODULES([Catch2], [catch2])
+PKG_CHECK_MODULES([lmdb], [lmdb])
 
 PKG_CHECK_MODULES([lmdb], [lmdb])
 

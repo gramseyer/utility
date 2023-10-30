@@ -25,10 +25,8 @@ jobs:
       run: ./configure
     - name: make
       run: make
-    - name: make test
+    - name: make test -j
       run: make test
-    - name: make distcheck
-      run: make distcheck
-    - name: test
+    - name: run tests
       run: ./test
     

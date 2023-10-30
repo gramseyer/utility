@@ -11,3 +11,4 @@ utility_CCS = \
 utility_TEST_CCS = \
 	%reldir%/tests/test_serialize.cc
 
+$(utility_TEST_CCS:.cc=.o): CXXFLAGS += -I %reldir%/

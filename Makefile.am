@@ -4,6 +4,8 @@ SUBDIRS = $(PKGCONFIG_SUBDIRS)
 
 # main srcs
 
+include Makefile.am.fragment
+
 lib_LIBRARIES = libutility.a
 
 pkginclude_HEADERS = \
@@ -28,40 +30,21 @@ CLEANFILES = *~ */*~ */*/*~ .gitignore~
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = utility.pc
 
+libutility_a_SOURCES = $(utility_CCS)
 
-LMDB_SRCS = \
-	lmdb/lmdb_types.cc \
-	lmdb/lmdb_wrapper.cc
-
-UTILS_SRCS = \
-	utils/cleanup.cc \
-	utils/mkdir.cc
-
-libutility_a_SOURCES = $(LMDB_SRCS) $(UTILS_SRCS)
-libutility_a_LIBOBJS = $(LIBOBJS) $(ALLOCA)
-
-SRCS = \
-	$(LMDB_SRCS) \
-	$(UTILS_SRCS)
-
-$(SRCS:.cc=.o): CXXFLAGS += -I./include
-#$(MAIN_CCS:.cc=.o) : CXXFLAGS += -I./include
-
-AM_CPPFLAGS = $(lmdb_CFLAGS)
-LDADD = $(lmdb_LIBS)
+AM_CPPFLAGS = $(lmdb_CFLAGS) $(utility_CFLAGS)
+LDADD = $(lmdb_LIBS) $(Catch2_LIBS)
 
 #$(EXTRA_SRCS:.cc=.o) : $(XH_FILES)
 #$(MAIN_CCS:.cc=.o) : $(XH_FILES)
-#$(TEST_SRCS:.cc=.o) : CXXFLAGS += $(Catch2_CFLAGS)
 
-#main/test.o : CXXFLAGS += $(Catch2_CFLAGS)
+$(utility_TEST_CCS:.cc=.o) : CXXFLAGS += $(catch2_CFLAGS)
 
-#test_SOURCES = $(SRCS) $(EXTRA_SRCS) main/test.cc
+test_SOURCES = $(utility_CCS) $(utility_TEST_CCS) test.cc
+test.o : CXXFLAGS += $(Catch2_CFLAGS)
 
-#test_LDADD = $(LDADD) $(Catch2_LIBS)
-
-#check_PROGRAMS = test
-#TESTS = test
+check_PROGRAMS = test
+TESTS = test
 
 #clean-local:
 #	$(RM)
