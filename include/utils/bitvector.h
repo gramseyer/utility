@@ -112,7 +112,7 @@ public:
 		return detail::BVManipFns<uint_type>::size_in_bytes;
 	}
 
-	void write(std::vector<uint8_t>& vec) {
+	void write(std::vector<uint8_t>& vec) const {
 		append_unsigned_big_endian(vec, bv);
 	}
 
