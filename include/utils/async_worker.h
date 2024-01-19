@@ -106,7 +106,7 @@ protected:
 	// http://www.gotw.ca/publications/mill18.htm
 	~AsyncWorker()
 	{
-		if (!terminate_correctly)
+		if (started && (!terminate_correctly))
 		{
 			std::printf("terminated async worker incorrectly\n");
 			std::fflush(stdout);
