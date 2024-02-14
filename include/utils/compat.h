@@ -1,8 +1,10 @@
 #pragma once
 
-//x86
+static inline void SPINLOCK_PAUSE() {
 #if __has_builtin(__builtin_ia32_pause)
-#define SPINLOCK_PAUSE __builtin_ia32_pause
-#elif __defined(__arm)
-#define SPINLOCK_PAUSE __yield
+    __builtin_ia32_pause();
+}
+#elif defined(__aarch64__)
+    asm volatile ("yield");
 #endif
+}
