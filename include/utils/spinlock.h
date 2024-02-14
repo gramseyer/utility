@@ -9,6 +9,7 @@ https://rigtorp.se/spinlock/
 #include <atomic>
 
 #include "utils/non_movable.h"
+#include "utils/compat.h"
 
 namespace utils {
 
@@ -28,7 +29,7 @@ class SpinMutex
                     return;
                 }
             }
-            __builtin_ia32_pause();
+            SPINLOCK_PAUSE();
         }
     }
 
