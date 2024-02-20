@@ -6,5 +6,5 @@ static inline void SPINLOCK_PAUSE() {
 }
 #elif defined(__aarch64__)
     asm volatile ("yield");
-#endif
 }
+#endif
