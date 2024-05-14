@@ -12,11 +12,11 @@ static inline void SPINLOCK_PAUSE()
 }
 
 #if __cpp_lib_unreachable > 202202L
-void unreachable() {
+static inline void unreachable() {
     std::unreachable();
 }
 #else
-void unreachable() {
+static inline void unreachable() {
     perror("unreachable!");
     std::abort();
 }
