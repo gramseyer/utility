@@ -10,6 +10,7 @@ without explicitly using pthread tls keys.
 #include <atomic>
 #include <cstdint>
 #include <optional>
+#include <string>
 
 #include "utils/non_movable.h"
 
